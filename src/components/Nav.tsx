@@ -45,7 +45,7 @@ export default function Nav({ onAsk }: NavProps) {
       <div className="nav-inner">
         <a className="nav-brand" href="#top" aria-label="Back to top">
           <span className="stamp" aria-hidden="true">
-            R
+            NR
           </span>
           <span>
             NAGA RENUKA KANDI <span className="brand-sub" aria-hidden="true">· LAB NOTEBOOK</span>
