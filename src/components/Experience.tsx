@@ -10,6 +10,9 @@ export default function Experience() {
   const [activeId, setActiveId] = useState(experience[0].id);
   const ref = useReveal();
   const active = experience.find((e) => e.id === activeId) ?? experience[0];
+  const activeIndex = experience.findIndex((e) => e.id === active.id);
+  const step = (dir: 1 | -1) =>
+    setActiveId(experience[(activeIndex + dir + experience.length) % experience.length].id);
 
   return (
     <section className="block" id="experience" aria-label="Experience">
@@ -45,6 +48,17 @@ export default function Experience() {
                 <span className="tab-period">{e.period}</span>
               </button>
             ))}
+            <div className="notes-nav" aria-label="Step through roles">
+              <button type="button" onClick={() => step(-1)} aria-label="Previous role">
+                <span aria-hidden="true">←</span> Prev
+              </button>
+              <span aria-hidden="true">
+                {activeIndex + 1} / {experience.length}
+              </span>
+              <button type="button" onClick={() => step(1)} aria-label="Next role">
+                Next <span aria-hidden="true">→</span>
+              </button>
+            </div>
           </div>
 
           <div

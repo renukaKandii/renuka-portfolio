@@ -1,12 +1,27 @@
-import { profile } from '../data/portfolio';
+import { certifications, experience, profile, projects } from '../data/portfolio';
 import { useReveal } from '../hooks/useReveal';
+import { useCountUp } from '../hooks/useCountUp';
 
 interface HeroProps {
   onAsk: () => void;
 }
 
+function Stat({ value, suffix, label }: { value: number; suffix?: string; label: string }) {
+  const { ref, value: display } = useCountUp(value);
+  return (
+    <div className="hero-stat">
+      <span className="hero-stat-num">
+        <span ref={ref}>{display}</span>
+        {suffix && <span aria-hidden="true">{suffix}</span>}
+      </span>
+      <span className="hero-stat-label">{label}</span>
+    </div>
+  );
+}
+
 export default function Hero({ onAsk }: HeroProps) {
   const ref = useReveal();
+  const organizations = new Set(experience.map((e) => e.company)).size;
 
   return (
     <section className="hero" id="top" aria-label="Introduction">
@@ -62,6 +77,23 @@ export default function Hero({ onAsk }: HeroProps) {
             </dl>
           </div>
         </aside>
+      </div>
+
+      <div className="wrap">
+        <div className="hero-stats reveal" ref={useReveal<HTMLDivElement>()} role="list" aria-label="At a glance">
+          <div role="listitem">
+            <Stat value={3} suffix="+" label="Years in industry" />
+          </div>
+          <div role="listitem">
+            <Stat value={projects.length} label="Experiments documented" />
+          </div>
+          <div role="listitem">
+            <Stat value={certifications.length} label="Certifications held" />
+          </div>
+          <div role="listitem">
+            <Stat value={organizations} label="Organizations worked with" />
+          </div>
+        </div>
       </div>
     </section>
   );

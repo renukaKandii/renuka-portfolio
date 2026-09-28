@@ -1,9 +1,10 @@
 import { skillGroups } from '../data/portfolio';
 import { useReveal } from '../hooks/useReveal';
+import { askQuestionEverywhere } from './AskRenuka';
 
 /**
  * Skills as lab apparatus: instruments on the bench, not progress bars.
- * Tools I reach for — shown as such.
+ * Select a tool to ask Kandi where it shows up in the work.
  */
 export default function Skills() {
   const ref = useReveal();
@@ -27,9 +28,15 @@ export default function Skills() {
               <h3>{group.name}</h3>
               <div className="chips">
                 {group.items.map((item) => (
-                  <span key={item} className="chip">
+                  <button
+                    key={item}
+                    type="button"
+                    className="chip chip-btn"
+                    title={`Ask Kandi about ${item}`}
+                    onClick={() => askQuestionEverywhere(`What experience do you have with ${item}?`)}
+                  >
                     {item}
-                  </span>
+                  </button>
                 ))}
               </div>
             </div>

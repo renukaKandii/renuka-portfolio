@@ -24,6 +24,7 @@
 import {
   askFallbackAnswer,
   askRenukaKnowledge,
+  skillGroups,
   type KnowledgeEntry,
 } from '../data/portfolio';
 
@@ -78,6 +79,19 @@ function scoreEntry(question: string, entry: KnowledgeEntry): number {
     if (triggerHit(question, trigger)) {
       // Longer, more specific phrases count more than single words.
       score += 1 + trigger.split(' ').length * 2;
+    }
+  }
+  // Skill-chip questions ("What experience do you have with X?") name a tool
+  // directly — route those to the technologies answer.
+  if (entry.id === 'technologies') {
+    for (const group of skillGroups) {
+      for (const item of group.items) {
+        const name = normalize(item);
+        if (name && triggerHit(question, name)) {
+          score += 4;
+          break;
+        }
+      }
     }
   }
   return score;
